@@ -1,15 +1,4 @@
 
-var nthitems=document.querySelector('.list-group-item:nth-child(2)');
-nthitems.style.background='green';
-var nth2items=document.querySelector('.list-group-item:nth-child(3)');
-nth2items.style.visibility='hidden';
-
-var list=document.querySelectorAll('li');
-list[1].style.color='lightgreen';
-var li=document.querySelectorAll('li:nth-child(odd)');
-for(var i=0;i<li.length;i++){
-    li[i].style.background='green';
-}
 
 
 // var header=document.querySelector('#main-header');
@@ -26,6 +15,11 @@ for(var i=0;i<li.length;i++){
 // nthitems.style.color='green';
 
 
+var nthitems=document.querySelector('.list-group-item:nth-child(2)');
+nthitems.style.background='green';
+var nth2items=document.querySelector('.list-group-item:nth-child(3)');
+nth2items.style.visibility='hidden';
+
 
 
 // var title=document.querySelectorAll('.title');
@@ -40,4 +34,10 @@ for(var i=0;i<li.length;i++){
 // for(var i=0;i<li.length;i++){
 //     li[i].style.background='green';
 // }
+var list=document.querySelectorAll('li');
+list[1].style.color='lightgreen';
+var li=document.querySelectorAll('li:nth-child(odd)');
+for(var i=0;i<li.length;i++){
+    li[i].style.background='green';
+}
 

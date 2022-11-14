@@ -28,11 +28,24 @@ itemList.addEventListener('click',removeitem);
      //append textnode
 
      deletebtn.appendChild(document.createTextNode('x'));
+     
      // append button to li
      li.appendChild(deletebtn);
      //append li to list
       itemList.appendChild(li);
-    }
+    
+
+    // add edit button 
+   var editbtn=document.createElement('button');
+  //add class name
+   editbtn.className='float-right mx-2';
+    //append text node
+   editbtn.appendChild(document.createTextNode('edit'));
+   //append button to li
+      li.appendChild(editbtn);
+   //append li to list
+    itemList.appendChild(li);
+ }
 
     //remove element
     function removeitem(e){

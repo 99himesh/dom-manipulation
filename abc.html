@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body style="text-align: center;" background="https://thumbs.dreamstime.com/b/wedding-flower-frame-blue-background-above-beautiful-floral-pattern-flat-lay-style-79676427.jpg">
+    <form action="#" onsubmit="getacall(event)">
+    <h1 style="color: orange;"> Book a call </h1>
+    <p> Book a call slot and our representative will call you within 1hr. of selected time. </p>
+    <br>
+    <hr>
+    <label> Name </label>
+    <br>
+    <input type="text" id="username" style="width: 400px; height:30px"  required/>
+    <br><br>
+    <label> E-Mail </label>
+    <br>
+    <input type="email" id="email" name="emailId" style="width: 400px; height:30px" required/>
+    <br><br>
+    <label> Phone No. </label>
+    <br>
+    <input type="Phone number" name="PhoneNo" style="width: 400px; height:40px"/>
+    <br><br>
+    <label> Time For Call </label>
+    <br>
+    <input type="date" name="date" style="width: 200px; height:30px" required/>
+    <input type="time" name="Time" style="width: 200px; height:30px" required/>
+    <br>
+    <br>
+    <button style="background-color: orange; width: 400px; height: 30px;"
+    > GET A CALL </button>
+</form>
+<ul id="listOfUser"></ul>
+<script>
+  function getacall(event){
+    event.preventDefault();
+    let detail = {
+        name: document.getElementById('username').value,
+        email: document.getElementById('email').value,
+        phoneNo: event.target.PhoneNo.value,
+    }; 
+    localStorage.setItem(detail.email,JSON.stringify(detail));
+    showNewUser(detail)
+}
+function showNewUser(user){
+    const parentNode = document.getElementById('listOfUser');
+    const childHTML = `<li> ${user.name} - ${user.email} - ${user.phoneNo} </li>`;
+    parentNode.innerHTML = parentNode.innerHTML + childHTML;
+}  
+</script>
+</body>
+</html>

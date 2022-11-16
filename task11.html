@@ -9,10 +9,14 @@
 <body>
     <form action=""  onsubmit="savetolocal(event)">
         <label for="">Name</label>
-        <input type="text" name="username"  />
-        <label for="">Email</label>
-        <input type="email"   name="emailid" />
+        <input type="text" id="name" name="username"  />
+        <label for="" >Email</label>
+        <input type="email" id="email"  name="emailid" />
         <button>submit</button>
+        <ul id="displey">
+
+        </ul>
+        
     </form>
 
 
@@ -24,11 +28,37 @@
             const email=event.target.emailid.value;
 
             var myobj = { name  ,email}
-            localStorage.setItem('username',myobj.name);
-            localStorage.setItem('email',myobj.email);
-          
 
+
+            localStorage.setItem(myobj.email,JSON.stringify(myobj));
+            
+             //to get  value from imput
+            var nameItem=document.getElementById('name').value;
+            var emailitem=document.getElementById('email').value;
+            var nameitemtext=document.createTextNode(nameItem);
+            var emailitemtext=document.createTextNode(emailitem)
+            var ul=document.getElementById('displey');
+
+           
+            //create a new li
+            var li=document.createElement('li');
+            li.style.listStyle='none';
+            //add class
+            li.className='abcd';
+          
+            
+            //add text node with input value of item and description
+          
+            // li.insertBefore(nameitemtext,ul);
+            // ul.insertBefore(emailitemtext,li);
+            li.appendChild(nameitemtext);
+            li.appendChild(emailitemtext);
+            
+            ul.appendChild(li);
+           
         }
+
+ 
 
 
     </script>

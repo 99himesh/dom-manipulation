@@ -45,11 +45,14 @@
     localStorage.setItem(detail.email,JSON.stringify(detail));
     showNewUser(detail)
 }
-function showNewUser(user){
-    const parentNode = document.getElementById('listOfUser');
-    const childHTML = `<li> ${user.name} - ${user.email} - ${user.phoneNo} </li>`;
-    parentNode.innerHTML = parentNode.innerHTML + childHTML;
-}  
+function showNewUserOnScreen(user){
+                const parentNode = document.getElementById('listOfUsers');
+                const childHTML = `<li id=${user.email}> ${user.name} - ${user.email}
+                                        <button onclick=deleteUser('${user.email}')> Delete User </button>
+                                     </li>`
+
+                parentNode.innerHTML = parentNode.innerHTML + childHTML;
+            }
 </script>
 </body>
 </html>

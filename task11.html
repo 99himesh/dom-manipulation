@@ -13,54 +13,95 @@
         <label for="" >Email</label>
         <input type="email" id="email"  name="emailid" />
         <button>submit</button>
-        <ul id="displey">
-
-        </ul>
-        
+        <ul id="displey"></ul>
     </form>
-
-
     <script>
-
-        function savetolocal(event){
+      function savetolocal(event){
             event.preventDefault();
             const name=event.target.username.value;
             const email=event.target.emailid.value;
 
-            var myobj = { name  ,email}
+            var myobj = { 
+                 userName :document.getElementById('name').value,
+                 emailId:document.getElementById('email').value,
+                }
+localStorage.setItem(myobj.email,JSON.stringify(myobj));   
+    showNewUser(myobj);
+             }
+             
+function showNewUser(user){
+    const parentNode = document.getElementById('displey');
+    const childHTML = `<li > ${user.name} - ${user.email} 
+        <button id='detele' onclick='deletefromlocal(${user.email})'>delete</button> 
+         <button id='edit'>edit</button> </li> `;
+    parentNode.innerHTML = parentNode.innerHTML + childHTML;
+
+    }
+
+deletefromlocal(emailId){
+    localStorage.removeItem(emailId);
+}
+
+            function showNewUserOnScreen(user){
+                const parentNode = document.getElementById('listOfUsers');
+                const childHTML = `<li id=${user.email}> ${user.name} - ${user.email}
+                                        <button onclick=deleteUser('${user.email}')> Delete User </button>
+                                     </li>`
+
+                parentNode.innerHTML = parentNode.innerHTML + childHTML;
+            }
+
+            // deleteUser('abc@gmail.com')
+
+            function deleteUser(emailId){
+                console.log(emailId)
+                localStorage.removeItem(emailId);
+                removeUserFromScreen(emailId);
+
+            }
+
+            function removeUserFromScreen(emailId){
+                const parentNode = document.getElementById('listOfUsers');
+                const childNodeToBeDeleted = document.getElementById(emailId);
+
+                parentNode.removeChild(childNodeToBeDeleted)
+            }
+        
 
 
-            localStorage.setItem(myobj.email,JSON.stringify(myobj));
-            
-             //to get  value from imput
-            var nameItem=document.getElementById('name').value;
-            var emailitem=document.getElementById('email').value;
-            var nameitemtext=document.createTextNode(nameItem);
-            var emailitemtext=document.createTextNode(emailitem)
-            var ul=document.getElementById('displey');
-
-           
-            //create a new li
-            var li=document.createElement('li');
-            li.style.listStyle='none';
-            //add class
-            li.className='abcd';
-          
-            
-            //add text node with input value of item and description
-          
-            // li.insertBefore(nameitemtext,ul);
-            // ul.insertBefore(emailitemtext,li);
-            li.appendChild(nameitemtext);
-            li.appendChild(emailitemtext);
-            
-            ul.appendChild(li);
-           
-        }
-
- 
 
 
-    </script>
+
+
+</script>
 </body>
 </html>
+
+
+
+
+<!-- //to get  value from imput
+var nameItem=document.getElementById('name').value;
+var emailitem=document.getElementById('email').value;
+var nameitemtext=document.createTextNode(nameItem);
+var emailitemtext=document.createTextNode(emailitem)
+var ul=document.getElementById('displey');
+
+
+//create a new li
+var li=document.createElement('li');
+li.style.listStyle='none';
+ //add text node with input value of item and description
+// add delete button
+        
+// li.insertBefore(nameitemtext,ul);
+// ul.insertBefore(emailitemtext,li);
+li.appendChild(nameitemtext);
+li.appendChild(emailitemtext);
+ul.appendChild(li);
+
+}
+function showNewUser(user){
+const parentNode = document.getElementById('listOfUser');
+const childHTML = `<li> ${user.name} - ${user.email} - ${user.phoneNo} </li>`;
+parentNode.innerHTML = parentNode.innerHTML + childHTML; -->

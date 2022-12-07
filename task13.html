@@ -1,65 +1,107 @@
-<html>
-    <body>
-        <form onsubmit="saveToLocalStorage(event)">
-            <label> Name</label>
-            <input type="text" name="username"  required/>
-            <label> EmailId</label>
-            <input type="email" name="emailId"  required/>
-            <label> Phone Number</label>
-            <input type="tel" name="phonenumber" />
-            <button> Submit </button>
-        </form>
-        <ul id='listOfitems'></ul>
-        <script>
-            function saveToLocalStorage(event) {
-                event.preventDefault();
-                const name = event.target.username.value;
-                const email = event.target.emailId.value;
-                const phonenumber = event.target.phonenumber.value;
-                // localStorage.setItem('name', name);
-                // localStorage.setItem('email', email);
-                // localStorage.setItem('phonenumber', phonenumber)
-                const obj = {
-                    name,
-                    email,
-                    phonenumber
-                }
-                localStorage.setItem(obj.email, JSON.stringify(obj))
-                showListofRegisteredUser(obj)
-            }
-
-            window.addEventListener('DOMContentLoaded', (event) => {
-                Object.keys(localStorage).forEach(key => {
-                    const user = JSON.parse(localStorage.getItem(key))
-                    showListofRegisteredUser(user)
-                })
-            })
-
-            function showListofRegisteredUser(user){
-                const parentNode = document.getElementById('listOfitems');
-                const createNewUserHtml = `<li id='${user.email}'>${user.name} - ${user.email} - ${user.phonenumber}
-                                                <button onclick=deleteUser('${user.email}')>Delete</button>
-                                                <button onclick=edituser('${user.email},${user.name }')>edit </button>
-                                            </li>
-                                            `
-                console.log(createNewUserHtml)
-                parentNode.innerHTML +=  createNewUserHtml;
-                console.log(parentNode.innerHTML)
-            }
-             
-
-            function deleteUser(email) {
-                localStorage.removeItem(email)
-                removeItemFromScreen(email)
-            }
-
-            function removeItemFromScreen(email){
-                const parentNode = document.getElementById('listOfitems');
-                const elem = document.getElementById(email)
-                parentNode.removeChild(elem);
-            }
-        </script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+  <title>Document</title>
+</head>
+<body>
+  <header id="main-header" class="bg-success text-white p-4 mb-3">
+    <div class="container">
+      <h1 id="header-title">Item Lister <span style="display:none">123</span></h1>
+    </div>
+  </header>
+  <div class="container">
+   <div id="main" class="card card-body">
+    <h2 class="title">Add Items</h2>
+    <form class="form-inline mb-3" id="addForm">
+      <input type="email" class="form-control mr-2" placeholder = "Email" id="email" autocomplete="on" required>
+      <input type="text" class="form-control mr-2" placeholder = "User Name" id="user" autocomplete="on" required>
+      <input type="text" class="form-control mr-2" placeholder="Item Name" id="item" autocomplete="on" required>
+      <input type="submit" class="btn btn-dark" value="Submit">
+    </form>
+    <h2 class="title">Items:</h2>
+    <ul id="items" class="list-group"></ul>
+   </div>
+  </div>
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js" integrity="sha512-odNmoc1XJy5x1TMVMdC7EMs3IVdItLPlCeL5vSUPN2llYKMJ2eByTTAIiiuqLg+GdNr9hF6z81p27DArRFKT7A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 
-    </body>
+  <script>
+  
+var flag =  true;;
+const form = document.querySelector('#addForm');
+const itemList = document.querySelector('#items');
+ window.addEventListener('DOMContentLoaded',() => {
+                showNewUserOnScreen(obj);
+            });
+     function saveToLocal(e){
+  e.preventDefault();
+  const newItem = document.querySelector('#item').value;
+  const userName = document.querySelector('#user').value;
+  const email = document.querySelector('#email').value;
+  const obj = {
+      newItem,
+      userName,
+      email
+  }
+  // localStorage.setItem(obj.email,JSON.stringify(obj));
+  axios.post('',obj)
+      .then((res) => {
+          showNewUserOnScreen(res.data);
+          // console.log(res);
+      })
+      .catch((err) => {console.log(err);})
+  // showNewUserOnScreen(obj);
+}
+function showNewUserOnScreen(user){
+    form.reset();
+    removeUserFromScreen(user.email);
+    const childHTTML = `<li class="list-group-item" id=${user._id}> Item: ${user.newItem}<br>User: ${user.userName}
+                        <span id=${user.email} hidden>${user._id}</span>
+                        <button class="btn btn-danger btn-sm float-right delete" onclick=deleteUser('${user._id}')>Delete</button>
+                        <button class="btn btn-danger btn-sm float-right delete" style="background-color:#f4f4f4; color:black" onclick=editUserDetails('${user.email}','${user.userName}','${user.newItem}')>Edit</button>
+                        </li>`;
+
+    itemList.innerHTML = itemList.innerHTML+childHTTML;
+}
+
+
+function removeUserFromScreen(unqID){
+    const parentNode = document.querySelector('#items');
+
+    const childNodeToBeDeleted = document.getElementById(`${unqID}`);
+    
+
+    if(childNodeToBeDeleted != null && flag){
+        parentNode.removeChild(childNodeToBeDeleted)
+    }
+}
+
+
+function deleteUser(unqID){
+    // localStorage.removeItem(emailId);
+    axios
+        .delete(` /${unqID}`)
+        .then(() => {
+            console.log(`Entry deleted!`);
+            flag = true;
+            removeUserFromScreen(unqID);
+        })
+        .catch((err) => {console.log("ERROR CATCH BLOCK:",err);})
+      }
+
+function editUserDetails(emailId, name, newItem){
+function editUserDetails(emailId, name, newItem){
+    document.querySelector('#item').value = newItem;
+    flag = true;
+    deleteUser(emailId)
+ 
+ }
+}
+  </script>
+</body>
 </html>

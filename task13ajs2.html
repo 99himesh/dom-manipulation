@@ -181,9 +181,9 @@ function showNewUserOnScreen(user){
   removeUserFromScreen(user.email);
 
   const childHTTML = `<li class="list-group-item" id=${user._id}> Item: ${user.newItem}<br>User: ${user.userName}
-                        <span id=${user.email} hidden>${user._id}</span>
+                        <span id=${user.email} hidden>${user.email}</span>
                         <button class="btn btn-danger btn-sm float-right delete" onclick=deleteUser('${user._id}')>Delete</button>
-                        <button class="btn btn-danger btn-sm float-right delete" style="background-color:#f4f4f4; color:black" onclick=editUserDetails('${user.email}','${user.userName}','${user.newItem}')>Edit</button>
+                        <button class="btn btn-danger btn-sm float-right delete" style="background-color:#f4f4f4; color:black" onclick=editUserDetails('${user.email}','${user.userName}','${user.newItem}','${user._id}')>Edit</button>
                         </li>`;
 
   // console.log(user.email);
@@ -232,7 +232,7 @@ function deleteUser(unqID){
 
 
 
-function editUserDetails(emailId, name, newItem){
+function editUserDetails(emailId, name, newItem,userid){
 
   document.querySelector('#email').value = emailId;
 
@@ -242,7 +242,7 @@ function editUserDetails(emailId, name, newItem){
 
   flag = true;
 
-  deleteUser(emailId)
+  deleteUser(userid)
 
 }
 
